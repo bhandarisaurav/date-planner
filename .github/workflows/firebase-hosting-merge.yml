@@ -13,7 +13,6 @@ jobs:
       - uses: actions/checkout@v4
       - run: npm run ci
       - uses: FirebaseExtended/action-hosting-deploy@v0.7.1
-        id: firebase-deploy
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DATE_PLANNER_SB }}'
@@ -28,6 +27,6 @@ jobs:
           fromPhoneNumber: ${{ secrets.TWILIO_NUMBER }}
           toPhoneNumber: ${{ secrets.MY_NUMBER }}
           message: |
-            PROD Build Success : ${{ steps.firebase-deploy.outputs.details_url }}
+            PROD Build Success : https://date-planner-sb.web.app/
     env:
       FIREBASE_CLI_EXPERIMENTS: webframeworks
