@@ -9,12 +9,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Display Pull Request Details
-        run: |
-          echo "Pull Request Details:"
-          echo '${{ toJson(github.event.pull_request) }}' | jq '.'
-
       - run: npm run ci
       - uses: FirebaseExtended/action-hosting-deploy@v0.7.1
         id: 'firebase-deploy'
@@ -23,27 +17,18 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DATE_PLANNER_SB }}'
           projectId: date-planner-sb
 
-      - name: Display Firebase Deploy Details
-        run: |
-          echo "Firebase Deploy Details:"
-          echo '${{ toJson(steps.firebase-deploy) }}' | jq '.'
-      # - name: 'Sending SMS Notification'
-      #   uses: twilio-labs/actions-sms@v1
-      #   with:
-      #     TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
-      #     TWILIO_API_KEY: ${{ secrets.TWILIO_API_KEY }}
-      #     TWILIO_API_SECRET: ${{ secrets.TWILIO_API_SECRET }}
-      #     fromPhoneNumber: ${{ secrets.TWILIO_NUMBER }}
-      #     toPhoneNumber: '+1(647)9154911)'
-      #     message: ${{ github.event.pull_request }}
-      # - name: 'Sending SMS Notification 1'
-      #   uses: twilio-labs/actions-sms@v1
-      #   with:
-      #     TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
-      #     TWILIO_API_KEY: ${{ secrets.TWILIO_API_KEY }}
-      #     TWILIO_API_SECRET: ${{ secrets.TWILIO_API_SECRET }}
-      #     fromPhoneNumber: ${{ secrets.TWILIO_NUMBER }}
-      #     toPhoneNumber: '+1(647)9154911)'
-      #     message: ${{ steps.event.pull_request }}
+      - name: 'Sending SMS Notification'
+        uses: twilio-labs/actions-sms@v1
+        with:
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          TWILIO_API_KEY: ${{ secrets.TWILIO_API_KEY }}
+          TWILIO_API_SECRET: ${{ secrets.TWILIO_API_SECRET }}
+          fromPhoneNumber: ${{ secrets.TWILIO_NUMBER }}
+          toPhoneNumber: ${{ secrets.MY_NUMBER }}
+          message: |
+
+            Hey Saurav,
+            Successful Deployment of the Pull Request: ${{ github.event.pull_request.title }}
+            PR URL: ${{ steps.firebase-deploy.outputs.details_url }}
     env:
       FIREBASE_CLI_EXPERIMENTS: webframeworks
