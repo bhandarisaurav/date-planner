@@ -17,9 +17,9 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DATE_PLANNER_SB }}'
           projectId: date-planner-sb
       - name: 'echo'
-        run: echo ${{ github.event.pull_request }}
+        run: echo ${{ toJson(github.event.pull_request) }}
       - name: 'echo 1'
-        run: echo ${{ steps.firebase-deploy }}
+        run: echo ${{ toJson(steps.firebase-deploy) }}
 
       # - name: 'Sending SMS Notification'
       #   uses: twilio-labs/actions-sms@v1
