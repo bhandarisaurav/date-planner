@@ -26,9 +26,8 @@ jobs:
           fromPhoneNumber: ${{ secrets.TWILIO_NUMBER }}
           toPhoneNumber: ${{ secrets.MY_NUMBER }}
           message: |
-
             Hey Saurav,
-            Successful Deployment of the Pull Request: ${{ github.event.pull_request.title }}
-            PR URL: ${{ steps.firebase-deploy.outputs.details_url }}
+            Successful Deployment of the Pull Request - ${{ github.event.pull_request.title }}
+            PR URL - ${{ steps.firebase-deploy.outputs.details_url }}
     env:
       FIREBASE_CLI_EXPERIMENTS: webframeworks
