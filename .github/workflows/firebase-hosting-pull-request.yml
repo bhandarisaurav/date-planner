@@ -9,6 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Display Pull Request Details
+        run: |
+          echo "Pull Request Details:"
+          echo '${{ toJson(github.event.pull_request) }}' | jq '.'
+
       - run: npm run ci
       - uses: FirebaseExtended/action-hosting-deploy@v0.7.1
         id: 'firebase-deploy'
@@ -16,11 +22,11 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DATE_PLANNER_SB }}'
           projectId: date-planner-sb
-      - name: 'echo'
-        run: echo ${{ toJson(github.event.pull_request) }}
-      - name: 'echo 1'
-        run: echo ${{ toJson(steps.firebase-deploy) }}
 
+      - name: Display Firebase Deploy Details
+        run: |
+          echo "Firebase Deploy Details:"
+          echo '${{ toJson(steps.firebase-deploy) }}' | jq '.'
       # - name: 'Sending SMS Notification'
       #   uses: twilio-labs/actions-sms@v1
       #   with:
